@@ -11,3 +11,9 @@ Details:
     4. devide(number) 
     5. pow(number)
   - when we use Line Calculator with NSlog() method, method should be print current result
+  - use MRC
+  
+  Example:
+    LineCalculator *calc = [LineCalculator defaultValue:@2]
+    calc.add(@2).multiply(2)
+    NSLog(@"%@", calc) // should be print 6
