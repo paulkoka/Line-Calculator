@@ -15,5 +15,5 @@ Details:
   
   Example:
     LineCalculator *calc = [LineCalculator defaultValue:@2];
-    calc.add(@2).multiply(2);
+    calc.add(@2).multiply(@2);
     NSLog(@"%@", calc); // should be print 6
