@@ -3,7 +3,6 @@ The priority of different operations should be kept in mind. It means, that 2 + 
 
 Details:
   - create class LineCalculator
-  - create class LineCalculator
   - init class default value (number)
   - add methods:
     1. add(number) 
