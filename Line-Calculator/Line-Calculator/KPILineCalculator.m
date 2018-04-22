@@ -9,8 +9,10 @@
 #import "KPILineCalculator.h"
 #import <math.h>
 
-#define FirsArgument ([self doubleValue])
-#define SecondArgument ([number doubleValue])
+#define FirsArgument ([[array objectAtIndex:i - 1] doubleValue])
+#define SecondArgument ([[array objectAtIndex:i + 1] doubleValue])
+
+typedef void(^TypicalBlock)(void);
 
 @implementation KPILineCalculator
 
@@ -49,12 +51,37 @@ NSMutableString* current;
 };
 
 -(NSString *)description{
-    [self calc];
+    [self calculation];
     return current;
 };
 
--(void)calc{
+
+
+-(void)calculation{
     NSMutableArray* array = [[current componentsSeparatedByString:@" "] mutableCopy];
+//    NSSet *topPriority = [NSSet setWithObject:@"^"];
+//    NSSet *middlePriority = [NSSet setWithObjects:@"*", @"/", nil];
+//    NSSet *lowPriority = [NSSet setWithObjects:@"+", @"-", nil];
+    __block NSUInteger i;
+    __block NSNumber* temp;
+    TypicalBlock cleaning = ^{
+        [array replaceObjectAtIndex:i-1 withObject:temp];
+        [array removeObjectAtIndex:i];
+        [array removeObjectAtIndex:i];
+    };
+    while (array.count!=1) {
+        while ([array containsObject:@"^"]) {
+           i = [array indexOfObject:@"^"];
+            temp = [NSNumber numberWithDouble: pow(FirsArgument, SecondArgument)];
+            cleaning();
+        }
+        
+        break;
+    }
+    
+    
+    
+    
     //[[NSNumber numberWithDouble:[[array objectAtIndex:0] doubleValue] + [[array objectAtIndex:2] doubleValue]] stringValue];
     NSLog(@"%@", array);
 };
