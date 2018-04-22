@@ -1,0 +1,116 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1561\cocoasubrtf400
+{\fonttbl\f0\fnil\fcharset0 HelveticaNeue;\f1\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red255\green255\blue255;\red131\green108\blue40;
+}
+{\*\expandedcolortbl;;\csgenericrgb\c0\c0\c0;\csgray\c100000;\csgenericrgb\c51200\c42300\c15700;
+}
+\margl1440\margr1440\vieww9000\viewh8400\viewkind0
+\deftab543
+\pard\tx543\pardeftab543\pardirnatural\partightenfactor0
+
+\f0\fs26 \cf2 \cb3 <b>Line-Calculator</b></br>
+\f1\fs24 \cf0 \
+\
+
+\f0\fs26 \cf2 Your task is to implement class Line Calculator. All methods in class should be support dot notation.</br>
+\f1\fs24 \cf0 \
+
+\f0\fs26 \cf2 The priority of different operations should be kept in mind. It means, that 2 + 2 * 2 is 6, not 8.</br>
+\f1\fs24 \cf0 \
+\
+
+\f0\fs26 \cf2 <b>Details:</b></br>
+\f1\fs24 \cf0 \
+
+\f0\fs26 \cf4   -\cf2  create class LineCalculator
+\f1\fs24 \cf0 \
+
+\f0\fs26 \cf4   -\cf2  init class default value (number)
+\f1\fs24 \cf0 \
+
+\f0\fs26 \cf4   -\cf2  add methods:
+\f1\fs24 \cf0 \
+
+\f0\fs26 \cf2     \cf4 1.\cf2  add(number) 
+\f1\fs24 \cf0 \
+
+\f0\fs26 \cf2     \cf4 2.\cf2  subtract(number) 
+\f1\fs24 \cf0 \
+
+\f0\fs26 \cf2     \cf4 3.\cf2  multiply(number)
+\f1\fs24 \cf0 \
+
+\f0\fs26 \cf2     \cf4 4.\cf2  devide(number) 
+\f1\fs24 \cf0 \
+
+\f0\fs26 \cf2     \cf4 5.\cf2  pow(number)
+\f1\fs24 \cf0 \
+
+\f0\fs26 \cf4   -\cf2  when we use Line Calculator with NSlog() method, method should be print current result
+\f1\fs24 \cf0 \
+
+\f0\fs26 \cf4   -\cf2  use MRC
+\f1\fs24 \cf0 \
+
+\f0\fs26 \cf2   
+\f1\fs24 \cf0 \
+
+\f0\fs26 \cf2 <i>Example: </i></br>
+\f1\fs24 \cf0 \
+
+\f0\fs26 \cf2     LineCalculator *calc = [LineCalculator defaultValue:@2]; </br>
+\f1\fs24 \cf0 \
+
+\f0\fs26 \cf2     calc.add(@2).multiply(@2); </br>
+\f1\fs24 \cf0 \
+
+\f0\fs26 \cf2     NSLog(@"%@", calc); // should be print 6 </br>
+\f1\fs24 \cf0 \
+
+\f0\fs26 \cf2     
+\f1\fs24 \cf0 \
+
+\f0\fs26 \cf2 <b>Test Data:</b></br>
+\f1\fs24 \cf0 \
+
+\f0\fs26 \cf2 LineCalculator *calc = [LineCalculator defaultValue:@10];</br>
+\f1\fs24 \cf0 \
+
+\f0\fs26 \cf2 calc.add(83); -> 93</br>
+\f1\fs24 \cf0 \
+\
+
+\f0\fs26 \cf2 LineCalculator *calc = [LineCalculator defaultValue:@4];</br>
+\f1\fs24 \cf0 \
+
+\f0\fs26 \cf2 calc.pow(1).pow(1).pow(1).multiply(2).add(80).subtract(11).multiply(1).subtract(41).subtract(65); -> -29</br>
+\f1\fs24 \cf0 \
+\
+
+\f0\fs26 \cf2 LineCalculator *calc = [LineCalculator defaultValue:@6];</br>
+\f1\fs24 \cf0 \
+
+\f0\fs26 \cf2 calc.add(14).subtract(16).add(36).multiply(1).subtract(46).add(57).pow(1); -> 51</br>
+\f1\fs24 \cf0 \
+\
+
+\f0\fs26 \cf2 LineCalculator *calc = [LineCalculator defaultValue:@10];</br>
+\f1\fs24 \cf0 \
+
+\f0\fs26 \cf2 calc.pow(1).pow(1); -> 10</br>
+\f1\fs24 \cf0 \
+\
+
+\f0\fs26 \cf2 LineCalculator *calc = [LineCalculator defaultValue:@7];</br>
+\f1\fs24 \cf0 \
+
+\f0\fs26 \cf2 calc.subtract(94).subtract(97).multiply(1).pow(1).multiply(1).pow(1).subtract(65).pow(1); -> -249</br>
+\f1\fs24 \cf0 \
+\
+
+\f0\fs26 \cf2 LineCalculator *calc = [LineCalculator defaultValue:@7];</br>
+\f1\fs24 \cf0 \
+
+\f0\fs26 \cf2 calc.subtract(43).subtract(43).multiply(1).subtract(60).add(8).subtract(28); -> -159</br>
+\f1\fs24 \cf0 \
+}
