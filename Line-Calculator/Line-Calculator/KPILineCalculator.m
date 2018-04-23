@@ -9,8 +9,8 @@
 #import "KPILineCalculator.h"
 #import <math.h>
 
-#define FirsArgument ([[expression objectAtIndex:i - 1] doubleValue])
-#define SecondArgument ([[expression objectAtIndex:i + 1] doubleValue])
+#define FirsArgument ([[expression objectAtIndex:i - 2] doubleValue])
+#define SecondArgument ([[expression objectAtIndex:i - 1] doubleValue])
 
 #define push ([stack addObject: element])
 
@@ -56,8 +56,15 @@ NSMutableString* current;
 
 -(NSString *)description{
     [self computing:[self convertionToReversePolishNotation]];
-    return current;
-};
+      return current;
+}
+
+
+//-(NSString *)description{
+//    NSNumber* result = [self computing:[self convertionToReversePolishNotation]];
+//    current = [NSMutableString stringWithFormat:@"%@", result ];
+//    return current;
+//};
 
 
 -(NSMutableArray* ) convertionToReversePolishNotation{
@@ -109,39 +116,53 @@ NSMutableString* current;
 
 -(void) computing: (NSMutableArray *) expression{
     
+    NSSet* operators = [NSSet setWithObjects:@"^", @"*", @"/", @"+", @"-", nil];
     
      __block NSUInteger i = 0;
      __block NSNumber* temp = [[[NSNumber alloc] init] autorelease];
     TypicalBlock cleaning = ^{
-                [expression replaceObjectAtIndex:i-1 withObject:temp];
-                [expression removeObjectAtIndex:i];
-                [expression removeObjectAtIndex:i];
+                [expression replaceObjectAtIndex:i - 2 withObject:temp];
+                [expression removeObjectAtIndex:i - 1];
+                [expression removeObjectAtIndex:i - 1];
+                i -= 2;
             };
 
     TypicalBlock add = ^{
         temp = [NSNumber numberWithDouble:(FirsArgument + SecondArgument)];
         cleaning();
-        i -= 2;
     };
     TypicalBlock subtract = ^{
         temp = [NSNumber numberWithDouble:(FirsArgument - SecondArgument)];
         cleaning();
-        i -= 2;
     };
     TypicalBlock multyply = ^{
         temp = [NSNumber numberWithDouble:(FirsArgument * SecondArgument)];
         cleaning();
-        i -= 2;
     };
     TypicalBlock devide = ^{
         temp = [NSNumber numberWithDouble:(FirsArgument / SecondArgument)];
         cleaning();
-        i -= 2;
     };
     TypicalBlock power = ^{
         temp = [NSNumber numberWithDouble:pow(FirsArgument, SecondArgument)];
         cleaning();
-        i -= 2;
     };
+    
+    NSDictionary *computing = @{@"-" : subtract,
+                               @"+" : add,
+                               @"/" : devide,
+                                @"*" : multyply,
+                               @"^" : power,
+                               };
+    
+    for ( i = 0; expression.count > 1; i++) {
+        id element = [expression objectAtIndex:i];
+        
+        if ([operators containsObject:element]) {
+            TypicalBlock runBlock = [computing valueForKey:element];
+            runBlock();
+        }
+    }
+    current = [[[[expression lastObject] stringValue] mutableCopy] autorelease];
 }
 @end
