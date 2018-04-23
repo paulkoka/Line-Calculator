@@ -17,8 +17,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     KPILineCalculator *calc = [KPILineCalculator defaultValue:@4];
-    
-    [[[[[calc add:@3] multiply:@7] subtract:@2] pow:@2] devide:@4];
+    [[[[[calc add:@3] subtract:@7] pow:@2] devide:@2] add:@4];
+    //[[[[[calc add:@3] multiply:@7] subtract:@2] pow:@2] devide:@4];
     
     NSLog(@"%@", calc);
 }

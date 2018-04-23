@@ -9,14 +9,18 @@
 #import "KPILineCalculator.h"
 #import <math.h>
 
-#define FirsArgument ([[array objectAtIndex:i - 1] doubleValue])
-#define SecondArgument ([[array objectAtIndex:i + 1] doubleValue])
+#define FirsArgument ([[expression objectAtIndex:i - 1] doubleValue])
+#define SecondArgument ([[expression objectAtIndex:i + 1] doubleValue])
+
+#define push ([stack addObject: element])
 
 typedef void(^TypicalBlock)(void);
 
 @implementation KPILineCalculator
 
+
 NSMutableString* current;
+
 
 +(KPILineCalculator *)defaultValue:(NSNumber *)number{
     KPILineCalculator *calc = [[[KPILineCalculator alloc] init] autorelease];
@@ -51,72 +55,93 @@ NSMutableString* current;
 };
 
 -(NSString *)description{
-    [self calculation];
+    [self computing:[self convertionToReversePolishNotation]];
     return current;
 };
 
 
-
--(void)calculation{
-    NSMutableArray* array = [[current componentsSeparatedByString:@" "] mutableCopy];
-//    NSSet *topPriority = [NSSet setWithObject:@"^"];
-//    NSSet *middlePriority = [NSSet setWithObjects:@"*", @"/", nil];
-//    NSSet *lowPriority = [NSSet setWithObjects:@"+", @"-", nil];
-    __block NSUInteger i;
-    __block NSNumber* temp;
-    TypicalBlock cleaning = ^{
-        [array replaceObjectAtIndex:i-1 withObject:temp];
-        [array removeObjectAtIndex:i];
-        [array removeObjectAtIndex:i];
-    };
-    while (array.count!=1) {
-        while ([array containsObject:@"^"]) {
-           i = [array indexOfObject:@"^"];
-            temp = [NSNumber numberWithDouble: pow(FirsArgument, SecondArgument)];
-            cleaning();
+-(NSMutableArray* ) convertionToReversePolishNotation{
+    
+    [current appendString:@" end"];
+    
+    NSArray* input  = [current componentsSeparatedByString:@" "];
+    
+    NSMutableArray* stack = [NSMutableArray array];
+    
+    NSMutableArray *output = [NSMutableArray array];
+    
+    NSSet* operators = [NSSet setWithObjects:@"^", @"*", @"/", @"+", @"-", nil];
+    
+    NSDictionary *priority = @{@"-" : @0,
+                               @"+" : @0,
+                               @"/" : @1,
+                               @"*" : @1,
+                               @"^" : @2,
+                               };
+    
+    for (id element in input) {
+        if ([operators containsObject:element])
+        {
+            if ((stack.count == 0)){
+                push;
+                
+            } else {
+                while ( [operators containsObject:[stack lastObject]] && [[priority valueForKey:
+                        element] integerValue] <= [[priority valueForKey:[stack lastObject]] integerValue])
+                {
+                    [output addObject:[stack lastObject]];
+                    [stack removeLastObject];
+                }
+                push;
+            }
+        } else if(![element isEqualToString:@"end"]){
+            [output addObject:element];
+        } else {
+            while (stack.count > 0) {
+                [output addObject:[stack lastObject]];
+                [stack removeLastObject];
+            }
         }
-        
-        break;
     }
+    return output;
+}
+
+
+-(void) computing: (NSMutableArray *) expression{
     
     
-    
-    
-    //[[NSNumber numberWithDouble:[[array objectAtIndex:0] doubleValue] + [[array objectAtIndex:2] doubleValue]] stringValue];
-    NSLog(@"%@", array);
-};
+     __block NSUInteger i = 0;
+     __block NSNumber* temp = [[[NSNumber alloc] init] autorelease];
+    TypicalBlock cleaning = ^{
+                [expression replaceObjectAtIndex:i-1 withObject:temp];
+                [expression removeObjectAtIndex:i];
+                [expression removeObjectAtIndex:i];
+            };
 
-//
-//-(void) add:(NSNumber *) number{
-//
-//  [KPILineCalculator defaultValue:[NSNumber numberWithDouble: FirsArgument + SecondArgument]];
-//};
-
-//
-//-(void)subtract:(NSNumber *) number{
-//    self = [NSNumber numberWithFloat:FirsArgument - SecondArgument];
-//};
-//
-//-(void)multiply:(NSNumber *) number{
-//    self = [NSNumber numberWithFloat:FirsArgument * SecondArgument];
-//};
-//
-//-(void)devide:(NSNumber *) number{
-//    self = [NSNumber numberWithFloat:FirsArgument / SecondArgument];
-//};
-//
-//-(void)pow:(NSNumber *) number{
-//    self = [NSNumber numberWithDouble: pow(FirsArgument, SecondArgument)];
-//};
-
-//+ (KPILineCalculator *)defaultValue:(NSNumber *) number{
-//    KPILineCalculator *calc = [[[KPILineCalculator alloc] init]autorelease];
-//    calc = (KPILineCalculator*) number;
-//     return calc;
-//};
-//
-//-(void ) add:(NSNumber *) number{
-//    self  = [NSNumber numberWithDouble:([self doubleValue] + [number doubleValue])];
-//};
-
+    TypicalBlock add = ^{
+        temp = [NSNumber numberWithDouble:(FirsArgument + SecondArgument)];
+        cleaning();
+        i -= 2;
+    };
+    TypicalBlock subtract = ^{
+        temp = [NSNumber numberWithDouble:(FirsArgument - SecondArgument)];
+        cleaning();
+        i -= 2;
+    };
+    TypicalBlock multyply = ^{
+        temp = [NSNumber numberWithDouble:(FirsArgument * SecondArgument)];
+        cleaning();
+        i -= 2;
+    };
+    TypicalBlock devide = ^{
+        temp = [NSNumber numberWithDouble:(FirsArgument / SecondArgument)];
+        cleaning();
+        i -= 2;
+    };
+    TypicalBlock power = ^{
+        temp = [NSNumber numberWithDouble:pow(FirsArgument, SecondArgument)];
+        cleaning();
+        i -= 2;
+    };
+}
 @end
